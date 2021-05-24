@@ -1,0 +1,21 @@
+name: "Cherry Pick Remote Trigger"
+description: "Trigger for cherry-pick-remote workflow."
+
+inputs:
+    repository:
+        description: "The GitHub repository to trigger for cherry pick."
+        required: true
+    token:
+        description: "Personal access token (PAT) to dispatch the event."
+        default: ${{ github.token }}
+
+runs:
+    using: "composite"
+    steps:
+        - name: Trigger the GitHub repository
+            run: |
+                curl -X POST \
+                -H "Accept: application/vnd.github.v3+json" \
+                https://api.github.com/repos/${{ inputs.repository }}/dispatches \
+                -u ${{ inputs.token }} \
+                -d '{"event_type": "push-dispatch", "client_payload": { "repository": "${{ GITHUB_REPOSITORY }}", "before": "${{ github.event.before }}", "after": "${{ github.event.after }}" }}'
