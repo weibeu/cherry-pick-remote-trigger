@@ -1,5 +1,5 @@
 name: "Cherry Pick Remote Trigger"
-description: "Trigger for cherry-pick-remote workflow."
+description: "Trigger for cherry-pick-remote action."
 
 inputs:
     repository:
